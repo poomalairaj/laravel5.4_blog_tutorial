@@ -16,17 +16,8 @@ class PostsController extends Controller
     public function index()
     {
 
-        $posts = Post::filter(\request(['month', 'year']))->get();
-
-        // Temporary.
-        // get archives
-        $archives = Post::selectRaw('year(created_at) year, monthname(created_at)  month, count(*) published')
-            ->groupBy('year', 'month')
-            ->orderByRaw('min(created_at) desc')
-            ->get()
-            ->toArray();
-
-        return view('posts.index', compact('posts', 'archives'));
+        $posts = Post::filter(request(['month', 'year']))->get();
+        return view('posts.index', compact('posts'));
     }
 
     public function show(Post $post)
